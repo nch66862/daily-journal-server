@@ -70,42 +70,11 @@ def get_single_entry(id):
 
         return json.dumps(entry.__dict__)
 
-def create_entry(entry):
-    # Get the id value of the last entry in the list
-    max_id = entryS[-1]["id"]
+def delete_entry(id):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Add 1 to whatever that number is
-    new_id = max_id + 1
-
-    # Add an `id` property to the animal dictionary
-    animal["id"] = new_id
-
-    # Add the animal dictionary to the list
-    ANIMALS.append(animal)
-
-    # Return the dictionary with `id` property added
-    return animal
-
-def delete_animal(id):
-    # Initial -1 value for animal index, in case one isn't found
-    animal_index = -1
-
-    # Iterate the ANIMALS list, but use enumerate() so that you
-    # can access the index value of each item
-    for index, animal in enumerate(ANIMALS):
-        if animal["id"] == id:
-            # Found the animal. Store the current index.
-            animal_index = index
-
-    # If the animal was found, use pop(int) to remove it from list
-    if animal_index >= 0:
-        ANIMALS.pop(animal_index)
-
-def update_animal(id, new_animal):
-    # Iterate the ANIMALS list, but use enumerate() so that
-    # you can access the index value of each item.
-    for index, animal in enumerate(ANIMALS):
-        if animal["id"] == id:
-            # Found the animal. Update the value.
-            ANIMALS[index] = new_animal
-            break
+        db_cursor.execute("""
+        DELETE FROM entry
+        WHERE id = ?
+        """, (id, ))

@@ -23,3 +23,5 @@ INSERT INTO `Mood` VALUES (null, 'Best');
 INSERT INTO `Entry` VALUES (null, 'Javascript', 'i miss it', 19208473625, 2);
 INSERT INTO `Entry` VALUES (null, 'REACT', 'i miss it', 19208473625, 3);
 INSERT INTO `Entry` VALUES (null, 'Python', 'building those connections', 19208473625, 1);
+
+DROP TABLE NSS
