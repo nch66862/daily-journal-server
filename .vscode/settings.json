@@ -6,5 +6,6 @@
             "name": "Daily Journal Database",
             "database": "${workspaceFolder:daily-journal-server}/dailyjournal.db"
         }
-    ]
+    ],
+    "python.pythonPath": "/Users/nickcarver/.local/share/virtualenvs/daily-journal-server-lVJ3R9HM/bin/python"
 }
