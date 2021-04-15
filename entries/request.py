@@ -86,7 +86,7 @@ def get_entries_by_search(terms):
             e.moodId
         FROM entry e
         WHERE e.entry LIKE ?
-        """, ( terms, ))
+        """, ( f'%{terms}%', ))
 
         # Initialize an empty list to hold all entry representations
         entries = []

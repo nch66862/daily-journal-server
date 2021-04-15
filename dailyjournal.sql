@@ -25,3 +25,12 @@ INSERT INTO `Entry` VALUES (null, 'REACT', 'i miss it', 19208473625, 3);
 INSERT INTO `Entry` VALUES (null, 'Python', 'building those connections', 19208473625, 1);
 
 DROP TABLE NSS
+
+SELECT
+            e.id,
+            e.concept,
+            e.entry,
+            e.date,
+            e.moodId
+        FROM entry e
+        WHERE e.entry LIKE '%b%'
