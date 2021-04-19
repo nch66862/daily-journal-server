@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search
+from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry
 from moods import get_all_moods, get_single_mood
 
 # Here's a class. It inherits from another class.
@@ -98,36 +98,30 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
-    # def do_POST(self):
-    #     self._set_headers(201)
-    #     #reads up to the end of the characters
-    #     content_len = int(self.headers.get('content-length', 0))
-    #     #turns that string into a python dictionary
-    #     post_body = self.rfile.read(content_len)
+    def do_POST(self):
+        self._set_headers(201)
+        #reads up to the end of the characters
+        content_len = int(self.headers.get('content-length', 0))
+        #turns that string into a python dictionary
+        post_body = self.rfile.read(content_len)
 
-    #     # Convert JSON string to a Python dictionary
-    #     post_body = json.loads(post_body)
+        # Convert JSON string to a Python dictionary
+        post_body = json.loads(post_body)
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
 
-    #     # Initialize new animal
-    #     new_creation = None
+        # Initialize new animal
+        new_entry = None
 
-    #     # Add a new animal to the list. Don't worry about
-    #     # the orange squiggle, you'll define the create_animal
-    #     # function next.
-    #     if resource == "animals":
-    #         new_creation = create_animal(post_body)
-    #     elif resource == "customers":
-    #         new_creation = create_customer(post_body)
-    #     elif resource == "employees":
-    #         new_creation = create_employee(post_body)
-    #     elif resource == "locations":
-    #         new_creation = create_location(post_body)
+        # Add a new animal to the list. Don't worry about
+        # the orange squiggle, you'll define the create_animal
+        # function next.
+        if resource == "entries":
+            new_entry = create_entry(post_body)
 
-    #     # Encode the new animal and send in response
-    #     self.wfile.write(json.dumps(new_creation).encode())
+        # Encode the new animal and send in response
+        self.wfile.write(json.dumps(new_entry).encode())
 
     # # Here's a method on the class that overrides the parent's method.
     # # It handles any PUT request.
