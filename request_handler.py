@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry
+from entries import get_all_entries, get_single_entry, delete_entry, get_entries_by_search, create_entry, update_entry
 from moods import get_all_moods, get_single_mood
 
 # Here's a class. It inherits from another class.
@@ -126,27 +126,21 @@ class HandleRequests(BaseHTTPRequestHandler):
     # # Here's a method on the class that overrides the parent's method.
     # # It handles any PUT request.
 
-    # def do_PUT(self):
-    #     self._set_headers(204)
-    #     content_len = int(self.headers.get('content-length', 0))
-    #     post_body = self.rfile.read(content_len)
-    #     post_body = json.loads(post_body)
+    def do_PUT(self):
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
 
-    #     # Delete a single animal from the list
-    #     if resource == "animals":
-    #         update_animal(id, post_body)
-    #     elif resource == "customers":
-    #         update_customer(id, post_body)
-    #     elif resource == "employees":
-    #         update_employee(id, post_body)
-    #     elif resource == "locations":
-    #         update_location(id, post_body)
+        # Delete a single animal from the list
+        if resource == "entries":
+            update_entry(id, post_body)
 
-    #     # Encode the new animal and send in response. Not needed really.
-    #     self.wfile.write("".encode())
+        # Encode the new animal and send in response. Not needed really.
+        self.wfile.write("".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
