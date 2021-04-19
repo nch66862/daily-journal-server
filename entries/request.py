@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Entry
+from models import Entry, Mood
 
 def get_all_entries():
     # Open a connection to the database
@@ -17,8 +17,11 @@ def get_all_entries():
             e.concept,
             e.entry,
             e.date,
-            e.moodId
+            e.moodId,
+            m.label
         FROM entry e
+        JOIN mood m
+            ON m.id = e.moodId
         """)
 
         # Initialize an empty list to hold all entry representations
@@ -36,6 +39,8 @@ def get_all_entries():
             # Entry class above.
             entry = Entry(row['id'], row['concept'], row['entry'],
                             row['date'], row['moodId'])
+            mood = Mood(row['moodId'], row['label'])
+            entry.mood = mood.__dict__
 
             entries.append(entry.__dict__)
 
@@ -56,8 +61,11 @@ def get_single_entry(id):
             e.concept,
             e.entry,
             e.date,
-            e.moodId
+            e.moodId,
+            m.label
         FROM entry e
+        JOIN mood m
+            ON m.id = e.moodId
         WHERE e.id = ?
         """, ( id, ))
 
@@ -67,6 +75,8 @@ def get_single_entry(id):
         # Create an entry instance from the current row
         entry = Entry(data['id'], data['concept'], data['entry'],
                             data['date'], data['moodId'])
+        mood = Mood(data['moodId'], data['label'])
+        entry.mood = mood.__dict__
 
         return json.dumps(entry.__dict__)
 

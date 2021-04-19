@@ -34,3 +34,14 @@ SELECT
             e.moodId
         FROM entry e
         WHERE e.entry LIKE '%b%'
+
+SELECT
+            e.id,
+            e.concept,
+            e.entry,
+            e.date,
+            e.moodId,
+            m.label
+        FROM entry e
+        JOIN mood m
+            ON m.id = e.moodId
