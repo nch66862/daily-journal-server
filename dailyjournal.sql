@@ -12,12 +12,31 @@ CREATE TABLE `Entry` (
      FOREIGN KEY (moodId) REFERENCES Mood(id)
 );
 
+CREATE TABLE `Entry_Tag` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`entry_id`	INTEGER NOT NULL,
+	`tag_id`	INTEGER NOT NULL,
+     FOREIGN KEY (entry_id) REFERENCES Entry(id),
+     FOREIGN KEY (tag_id) REFERENCES Tag(id)
+);
+
+CREATE TABLE `Tag` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`name`	TEXT NOT NULL
+);
+
 SELECT * FROM Entry
 SELECT * FROM Mood
 
 INSERT INTO `Mood` VALUES (null, 'Good');
 INSERT INTO `Mood` VALUES (null, 'Better');
 INSERT INTO `Mood` VALUES (null, 'Best');
+
+INSERT INTO `Tag` VALUES (null, 'NSS');
+INSERT INTO `Tag` VALUES (null, 'Ballin');
+INSERT INTO `Tag` VALUES (null, 'CodeLife');
+INSERT INTO `Tag` VALUES (null, 'HireMe');
+INSERT INTO `Tag` VALUES (null, 'NotToday');
 
 
 INSERT INTO `Entry` VALUES (null, 'Javascript', 'i miss it', 19208473625, 2);

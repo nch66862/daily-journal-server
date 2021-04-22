@@ -147,10 +147,20 @@ def create_entry(new_entry):
         # the database.
         id = db_cursor.lastrowid
 
+        for tagId in new_entry['tag_ids']:
+            db_cursor.execute("""
+            INSERT INTO Entry_Tag
+                ( entry_id, tag_id )
+            VALUES
+                ( ?, ? );
+            """, ( id, tagId ))
+
+
         # Add the `id` property to the entry dictionary that
         # was sent by the client so that the client sees the
         # primary key in the response.
         new_entry['id'] = id
+    return new_entry
 
 def update_entry(id, new_entry):
     with sqlite3.connect("./dailyjournal.db") as conn:
