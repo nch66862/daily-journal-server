@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Entry, Mood
+from models import Entry, Mood, Tag
 
 def get_all_entries():
     # Open a connection to the database
@@ -42,6 +42,25 @@ def get_all_entries():
             mood = Mood(row['moodId'], row['label'])
             entry.mood = mood.__dict__
 
+            db_cursor.execute("""
+            SELECT
+                t.id,
+                t.name
+            FROM Entry_Tag et
+            JOIN Tag t
+                ON t.id = et.tag_id
+            WHERE et.entry_id = ?
+            """, ( entry.id, ))
+
+            tag_data = db_cursor.fetchall()
+
+            tags = []
+
+            for tag in tag_data:
+                tag = Tag(tag['id'], tag['name'])
+                tags.append(tag.__dict__)
+
+            entry.tags = tags
             entries.append(entry.__dict__)
 
     # Use `json` package to properly serialize list as JSON
@@ -147,7 +166,7 @@ def create_entry(new_entry):
         # the database.
         id = db_cursor.lastrowid
 
-        for tagId in new_entry['tag_ids']:
+        for tagId in new_entry['tags']:
             db_cursor.execute("""
             INSERT INTO Entry_Tag
                 ( entry_id, tag_id )

@@ -64,3 +64,16 @@ SELECT
         FROM entry e
         JOIN mood m
             ON m.id = e.moodId
+
+SELECT * FROM Entry
+
+SELECT
+    et.id,
+    et.entry_id,
+    et.tag_id,
+    t.id,
+    t.name
+FROM Entry_Tag et
+JOIN Tag t
+    ON t.id = et.tag_id
+WHERE et.entry_id = 7
